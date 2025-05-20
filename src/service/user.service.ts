@@ -1,5 +1,6 @@
 import { Post, PrismaClient } from '../../generated/prisma';
 import { User } from '../models/user';
+import UserModel  from '../models/user1';
 
 const prisma = new PrismaClient();
 
@@ -22,6 +23,18 @@ export const createUser = async (user: User) => {
     });
     console.log(result,"result")
     return result;
+};
+
+export const createUserMongo = async (user: User) => {
+  try {
+    const newUser = new UserModel(user);
+    const savedUser = await newUser.save();
+    // console.log('User saved:', savedUser);
+    return savedUser;
+  } catch (error) {
+    console.error('Error saving user:', error);
+    throw error;
+  }
 };
 
 export const fetchUsers = async () => {

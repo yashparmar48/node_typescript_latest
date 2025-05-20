@@ -4,6 +4,7 @@ import { Server } from 'socket.io';
 import userRoutes from './routes/user.routes';
 import dotenv from 'dotenv';
 import cors from 'cors';
+import mongoose from 'mongoose';
 
 dotenv.config()
 
@@ -19,6 +20,10 @@ app.use(express.json());
 app.use('/api', userRoutes);
 
 const server = http.createServer(app);
+
+mongoose.connect('mongodb://localhost:27017/myappdb')
+  .then(() => console.log('Connected to MongoDB'))
+  .catch((err) => console.error('MongoDB connection error:', err));
 
 const io = new Server(server, {
   cors: {

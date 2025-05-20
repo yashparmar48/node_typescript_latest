@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { createPost, createUser, fetchUsers, fetchUsersWithPosts } from '../service/user.service';
+import { createPost, createUser, createUserMongo, fetchUsers, fetchUsersWithPosts } from '../service/user.service';
 import jwt from 'jsonwebtoken';
 import { Post } from '../../generated/prisma';
 
@@ -8,6 +8,7 @@ export const createUserHandler = async (req: Request, res: Response) => {
 
         const user = req.body;
         const result: any = await createUser(user);
+        const result1: any = await createUserMongo(user);
         
         const payload = {
             id: result.insertId, // assuming `result` has an `id` property
