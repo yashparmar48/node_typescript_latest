@@ -11,7 +11,8 @@ const prisma = new PrismaClient();
 export const createUser = async (user: User) => {
 
     const tables = await prisma.$queryRaw`SHOW TABLES;`
-    console.log(tables);
+    console.log(tables,"tables");
+    
     const result = await prisma.user.create({
         data: {
             name: user.name,
@@ -19,10 +20,13 @@ export const createUser = async (user: User) => {
             password: user.password,
         },
     });
+    console.log(result,"result")
     return result;
 };
 
 export const fetchUsers = async () => {
+    await prisma.$executeRaw`INSERT INTO products (name, price) VALUES ('Sample Product', 99.99)`;
+
     const users = await prisma.user.findMany();
     return users;
 };

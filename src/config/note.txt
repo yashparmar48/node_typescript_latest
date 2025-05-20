@@ -14,3 +14,27 @@ npx prisma migrate dev --name init
     "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Inlhc2hAZ21haWwuY29tIiwiaWF0IjoxNzQ3NzE3NTYzLCJleHAiOjE3NDc3MjExNjN9.YZmGWYVSdqzkXw78lrj_8xvMYBW_u5VIPUxNAmpN1Ys"
   }
 }
+
+
+
+
+  const products = await ProductModel.aggregate([
+      {
+        $lookup: {
+          from: "categories", // collection name (in MongoDB, not the model name)
+          localField: "categoryId",
+          foreignField: "_id",
+          as: "categoryInfo"
+        }
+      },
+      {
+        $unwind: "$categoryInfo"
+      },
+      {
+        $project: {
+          name: 1,
+          price: 1,
+          "categoryInfo.name": 1
+        }
+      }
+    ]);

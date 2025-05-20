@@ -157,7 +157,7 @@ const config = {
     "isCustomOutput": true
   },
   "relativeEnvPaths": {
-    "rootEnvPath": "../../.env",
+    "rootEnvPath": null,
     "schemaEnvPath": "../../.env"
   },
   "relativePath": "../../prisma",
@@ -167,6 +167,7 @@ const config = {
     "db"
   ],
   "activeProvider": "mysql",
+  "postinstall": false,
   "inlineDatasources": {
     "db": {
       "url": {
@@ -175,8 +176,8 @@ const config = {
       }
     }
   },
-  "inlineSchema": "generator client {\n  provider = \"prisma-client-js\"\n  output   = \"../generated/prisma\"\n}\n\ndatasource db {\n  provider = \"mysql\"\n  url      = env(\"DATABASE_URL\")\n}\n\nmodel User {\n  id       Int    @id @default(autoincrement())\n  name     String @db.VarChar(100)\n  email    String @unique @db.VarChar(100)\n  password String @db.VarChar(32)\n\n  posts Post[] // 👈 relation to posts\n\n  @@map(\"users\")\n}\n\nmodel Post {\n  id      Int    @id @default(autoincrement())\n  title   String @db.VarChar(255)\n  content String\n  userId  Int\n  user    User   @relation(fields: [userId], references: [id])\n\n  @@map(\"posts\") // 👈 tells Prisma it maps to the `posts` table\n}\n",
-  "inlineSchemaHash": "829003b282de23c54e2244d71f1a1e53a29b8f90c3c73037ba263f60ba3fe575",
+  "inlineSchema": "generator client {\n  provider = \"prisma-client-js\"\n  output   = \"../generated/prisma\"\n}\n\ndatasource db {\n  provider = \"mysql\"\n  url      = env(\"DATABASE_URL\")\n}\n\nmodel User {\n  id       Int    @id @default(autoincrement())\n  name     String @db.VarChar(100)\n  email    String @unique @db.VarChar(100)\n  password String @db.VarChar(32)\n  posts    Post[]\n\n  @@map(\"users\")\n}\n\nmodel Post {\n  id      Int    @id @default(autoincrement())\n  title   String @db.VarChar(255)\n  content String\n  userId  Int\n  user    User   @relation(fields: [userId], references: [id])\n\n  @@index([userId], map: \"posts_userId_fkey\")\n  @@map(\"posts\")\n}\n\n/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.\nmodel products {\n  id    Int    @id @default(autoincrement())\n  name  String @db.VarChar(64)\n  price Float\n\n  @@ignore\n}\n",
+  "inlineSchemaHash": "cb5019db689a0af5c49f7caee3892e23368b0da0efdba469c0093d4a769ef1d5",
   "copyEngine": true
 }
 
