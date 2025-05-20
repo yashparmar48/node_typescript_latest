@@ -1,0 +1,16 @@
+npx prisma migrate dev --name init  
+npm install @prisma/client
+npx prisma generate
+
+
+npx prisma migrate dev --name init
+
+{
+  "message": "User created successfully",
+  "data": {
+    "email": "yash@gmail.com",
+    "name": "yash",
+    "password": "yash@123",
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Inlhc2hAZ21haWwuY29tIiwiaWF0IjoxNzQ3NzE3NTYzLCJleHAiOjE3NDc3MjExNjN9.YZmGWYVSdqzkXw78lrj_8xvMYBW_u5VIPUxNAmpN1Ys"
+  }
+}

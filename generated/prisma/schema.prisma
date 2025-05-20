@@ -1,0 +1,30 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id       Int    @id @default(autoincrement())
+  name     String @db.VarChar(100)
+  email    String @unique @db.VarChar(100)
+  password String @db.VarChar(32)
+
+  posts Post[] // 👈 relation to posts
+
+  @@map("users")
+}
+
+model Post {
+  id      Int    @id @default(autoincrement())
+  title   String @db.VarChar(255)
+  content String
+  userId  Int
+  user    User   @relation(fields: [userId], references: [id])
+
+  @@map("posts") // 👈 tells Prisma it maps to the `posts` table
+}

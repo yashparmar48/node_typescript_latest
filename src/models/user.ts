@@ -4,3 +4,10 @@ export interface User {
   email: string;
   password: string;
 }
+
+
+export interface Post {
+  id:number;
+  title:string;
+  content:string
+}
